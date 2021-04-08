@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load markdown_filter %}
+{% load static %}
+{% block content %}
+<h2>Diary</h2>
+
+<form method="post" action="{% url 'diary:upload_image' %}" enctype="multipart/form-data" name="image">
+  {% csrf_token %}
+  <div id="input_image">
+    <label>
+      <img src="{% static 'diary/icon-image.png' %}" alt="upload image button" />
+      업로드 이미지
+      <input class="hidden" type="file" accept="image/*" name="image">
+    </label>
+    <input type="password" name="password" placeholder="비밀번호">
+    <input type="submit" value="업로드">
+  </div>
+</form>
+
+<div id="diary">
+  {% for image in image_list %}
+  <div class="page">
+    <span class="page_id">no.{{ image.id }}</span>
+
+    <div class="image_delete right">
+      <span>삭제</span>
+      <form class="hidden" method="post" action="{% url 'diary:delete_image' image.id %}" name="delete_image_{{ image.id }}">
+        {% csrf_token %}
+        <input type="password" name="password" placeholder="삭제 비밀번호">
+        <input type="submit" value="삭제">
+      </form>
+    </div>
+
+    <div class="image">
+      <img src="{{ image.image.url }}">
+    </div>
+
+    {% for reply in image.reply_set.all %}
+    <div class="reply">
+      <p>{{ reply.name }} - {{ reply.date }}</p>
+      <p>{{ reply.content|mark }}</p>
+      <div class="reply_delete">
+        <span>삭제</span>
+        <form class="hidden" method="post" action="{% url 'diary:delete_reply' reply.id %}" name="delete_reply_{{ reply.id }}">
+          {% csrf_token %}
+          <input type="password" name="password" placeholder="삭제 비밀번호">
+          <input type="submit" value="삭제">
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="reply_button">리플 추가</div>
+    <div class="input_reply hidden">
+      <form method="post" action="{% url 'diary:create_reply' image.id %}" name="reply_{{ image.id }}">
+        {% csrf_token %}
+        <textarea name="content" placeholder="댓글을 남겨주세요"></textarea>
+        <input type="text" name="name" placeholder="닉네임">
+        <div class="right">
+          <input type="password" name="password" placeholder="비밀번호">
+          <input type="submit" value="등록">
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="page_control">
+  <!-- 이전페이지 -->
+  {% if image_list.has_previous %}
+  <a class="page-link" href="?page={{ image_list.previous_page_number }}">&lt;이전페이지 /</a>
+  {% endif %}
+  <!-- 다음페이지 -->
+  {% if image_list.has_next %}
+  <a class="page-link" href="?page={{ image_list.next_page_number }}">/ 다음페이지&gt;</a>
+  {% endif %}
+</div>
+
+{% endblock %}

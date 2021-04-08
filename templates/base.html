@@ -1,0 +1,46 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+  <title>{% block title %}{% endblock%}Aeternus</title>
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/default.min.css">
+</head>
+<body>
+  <div id="allpage">
+    <div id="menu">
+      <img src="{% static 'menu.png' %}" width="400" height="400" alt="메뉴이미지" usemap="#menuMap">
+      <map name="menuMap" id="menuMap">
+        <area shape="poly" coords="199,0,137,93,199,187,262,93"     alt="Main"      title="Main"      target="_self"  href="/">
+        <area shape="poly" coords="131,106,68,199,131,293,194,199"  alt="Diary"     title="Diary"     target="_self"  href="/diary/">
+        <area shape="poly" coords="268,106,205,199,268,293,331,199" alt="Favorite"  title="Favorite"  target="_self"  href="/blog/">
+        <area shape="poly" coords="199,212,137,305,199,399,262,305" alt="GuestBook" title="GuestBook" target="_self"  href="/bbs/">
+      </map>
+      <h1>Aeternus</h1>
+    </div>
+    <div id="sub_menu">
+      <h1>Aeternus</h1>
+      <a href="{% url 'page:main' %}"><img src="{% static 'menu1.png' %}" width="100%" alt="Main"></a>
+      <a href="{% url 'diary:main' %}"><img src="{% static 'menu2.png' %}" width="100%" alt="Diary"></a>
+      <a href="{% url 'blog:category' %}"><img src="{% static 'menu3.png' %}" width="100%" alt="Favorite"></a>
+      <a href="{% url 'bbs:bbs' %}"><img src="{% static 'menu4.png' %}" width="100%" alt="Guest"></a>
+    </div>
+    <div id="content">
+      <!-- 기본 템플릿 안에 삽입될 내용 Start -->
+      {% block content %}
+      {% endblock %}
+      <!-- 기본 템플릿 안에 삽입될 내용 End -->
+      <hr class='endhr'>
+      <p><a href="javascript:window.scrollTo(0,0);">↑Top</a><span class="right">made by 사월</span></p>
+    </div>
+  </div>
+  <script src="{% static 'script.js' %}"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</body>
+
+</html>

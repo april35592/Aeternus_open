@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Guest Book</h2>
+<form method="post" name="reply">
+  {% csrf_token %}
+  {% if form.errors %}{% for field in form %}{% if field.errors %}
+    <p><strong>{{ field.label }}을 입력해주세요.</strong></p>
+  {% endif %}{% endfor %}{% endif %}
+  <div id="input_guest">
+    <div id="input_guest_content">
+      <textarea name="content" placeholder="남기실 메세지가 있다면 적어주세요!">{{ form.content.value|default_if_none:'' }}</textarea>
+    </div>
+    <div id="input_guest_name">
+      <input type="text" name="name" placeholder="닉네임" value="{{ form.name.value|default_if_none:'' }}">
+      <input type="submit" value="전송">
+    </div>
+  </div>
+</form>
+<h1>Thanks For</h1>
+{% if reply_list %}
+  <div class="reply_list">
+    {% for reply in reply_list %}
+      <h3>{{ reply.name }}<span>▽</span></h3>
+      <p class="hidden">{{ reply.content }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
+  <div class="page_control">
+  <!-- 이전페이지 -->
+  {% if reply_list.has_previous %}
+    <a class="page-link" href="?page={{ reply_list.previous_page_number }}">&lt;이전페이지 /</a>
+  {% endif %}
+  <!-- 다음페이지 -->
+  {% if reply_list.has_next %}
+    <a class="page-link" href="?page={{ reply_list.next_page_number }}">/ 다음페이지&gt;</a>
+  {% endif %}
+  </div>
+
+{% endblock %}

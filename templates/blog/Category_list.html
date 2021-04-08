@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Favorite</h2>
+
+<div id="category_list">
+  {% for category in object_list %}
+    <a href="{% url 'blog:postList' category.slug_url %}">
+      <div class='category_card'>
+        <div class='category_thumbnail'><img src="{{ category.thumnail.url }}"></div>
+      <p>{{ category.name }}</p>
+      </div>
+    </a>
+  {% endfor %}
+</div>
+
+{% endblock %}
