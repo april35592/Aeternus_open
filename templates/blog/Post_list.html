@@ -4,15 +4,15 @@
 
 <ul id="post_list">
   {% for post in post_list %}
-  <li class='post_title'>
-    <a href="{% url 'blog:postDetail' post.category.slug_url post.id %}">
+  <a href="{% url 'blog:postDetail' post.category.slug_url post.id %}">
+    <li class='post_title'>
       {% if post.thumbnail %}
-        <div class="postThumbnail"><img src="{{ post.thumbnail.url }}"></div>
+      <div class="postThumbnail"><img src="{{ post.thumbnail.url }}"></div>
       {% endif %}
       {{ post.title }}
-    </a>
-  </li>
- {% endfor %}
+    </li>
+  </a>
+  {% endfor %}
 </ul>
 
 {% endblock %}

@@ -5,8 +5,8 @@
 
 {% block content %}
 <h2><span class='more_letter'>[{{ object.category }}]</span> {{ object.title }}</h2>
-<p class='date'>{{ object.create_date }} 생성</p>
-{% if object.update_date != object.create_date %}<p class='date'>{{ object.update_date }} 수정</p>{% endif %}
+<p class='date'>{{ object.create_date }} 생성
+{% if object.update_date != object.create_date %}<br> {{ object.update_date }} 수정{% endif %}</p>
 
 <div id="post">
   {{ object.content|mark }}
